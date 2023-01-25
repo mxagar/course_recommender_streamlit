@@ -6,13 +6,30 @@ The deployed application was inspired by the the [IBM Machine Learning Professio
 
 ## Dataset
 
-:construction: To be done...
+The dataset is composed of two files, located in [`data/`](data), and which can be downloaded from the following links:
 
-[`course_genre.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/course_genre.csv)
-[`ratings.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/ratings.csv)
+- [`course_genre.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/course_genre.csv)
+- [`ratings.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/ratings.csv)
+
+The **course catalogue** is contained in [`course_genre.csv`](data/course_genre.csv), which consists of 307 course entries, each with 16 features:
+
+- `COURSE_ID`
+- `TITLE`
+- 12 (binary) topic or genre fields: `'Database', 'Python', 'CloudComputing', 'DataAnalysis', 'Containers', 'MachineLearning', 'ComputerVision', 'DataScience', 'BigData', 'Chatbot', 'R', 'BackendDev', 'FrontendDev', 'Blockchain'`.
+
+The **ratings table** is contained in [`ratings.csv`](data/ratings.csv), which consists of 233306 rating entries, each with 3 features:
+
+- `user`: student id
+- `item`: course id, equivalent to `COURSE_ID` in `course_genre.csv`
+- `rating`: two possible values:
+  - `2`: the user just audited the course without completing it.
+  - `3`: the user completed the course and earned a certificate.
+  - Other possible values, not present in the dataset: `0` or `NA` (no exposure), `1` (student browser course).
 
 <p style="text-align:center">
-  <img src="./assets/word_cloud.png" alt="A wordcloud with the course title." width=1000px>
+  <img src="./assets/word_cloud.png" alt="A wordcloud generated from the course titles." width=1000px>
+  <small style="color:grey">A wordcloud generated from the course titles.</small>
+
 </p>
 
 ## How to Use This Project
@@ -20,7 +37,6 @@ The deployed application was inspired by the the [IBM Machine Learning Professio
 The directory of the project consists of the following files:
 
 :construction: To be done...
-
 
 ```
 .
@@ -47,6 +63,9 @@ List of most important dependencies:
 
 - Pandas
 - Numpy
+- Matplotlib
+- Seaborn
+- Wordcloud
 - Scikit-Learn
 - Streamlit
 
