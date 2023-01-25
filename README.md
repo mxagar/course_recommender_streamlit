@@ -29,7 +29,6 @@ The **ratings table** is contained in [`ratings.csv`](data/ratings.csv), which c
 <p style="text-align:center">
   <img src="./assets/word_cloud.png" alt="A wordcloud generated from the course titles." width=1000px>
   <small style="color:grey">A wordcloud generated from the course titles.</small>
-
 </p>
 
 ## How to Use This Project
