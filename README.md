@@ -36,8 +36,12 @@ pip install requirements.txt
 
 List of most important dependencies:
 
-- A
-- B
+- Pandas
+- Numpy
+- Scikit-Learn
+- Streamlit
+
+Also, note that **the notebooks can be opened in Google Colab** by clicking on the icon provided in each of them.
 
 ## Notes on Theory
 
