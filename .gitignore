@@ -132,3 +132,4 @@ dmypy.json
 .vscode
 eda_fe_summary
 machine_learning_ibm
+.DS_Store
