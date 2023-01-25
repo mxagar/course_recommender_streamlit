@@ -2,6 +2,8 @@
 
 This project implements and deploys an AI course Recommender System using [Streamlit](https://streamlit.io/).
 
+This project was inspired by the the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera. In the last course/module of the Specialization, Machine Learning Capstone, a similar application is built; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project) for more information.
+
 ## Dataset
 
 :construction: To be done...
@@ -76,3 +78,5 @@ Mikel Sagardia, 2022.
 No guarantees.
 
 If you find this repository useful, you're free to use it, but please link back to the original source.
+
+This project was inspired by the the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera. In the last course/module of the Specialization, Machine Learning Capstone, a similar application is built; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project) for more information.
