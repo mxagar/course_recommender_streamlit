@@ -36,3 +36,4 @@ dependencies:
       - setuptools
       - wheel
       - spacy
+      - wordcloud==1.8.1
