@@ -6,16 +6,19 @@ The deployed application was inspired by the the [IBM Machine Learning Professio
 
 ## Dataset
 
-The dataset is composed of two files, located in [`data/`](data), and which can be downloaded from the following links:
+The dataset is composed of the following files, located in [`data/`](data), and which can be downloaded from the following links:
 
 - [`course_genre.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/course_genre.csv)
 - [`ratings.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/ratings.csv)
+- [`course_processed.csv`](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/datasets/course_processed.csv)
 
 The **course catalogue** is contained in [`course_genre.csv`](data/course_genre.csv), which consists of 307 course entries, each with 16 features:
 
 - `COURSE_ID`
 - `TITLE`
 - 12 (binary) topic or genre fields: `'Database', 'Python', 'CloudComputing', 'DataAnalysis', 'Containers', 'MachineLearning', 'ComputerVision', 'DataScience', 'BigData', 'Chatbot', 'R', 'BackendDev', 'FrontendDev', 'Blockchain'`.
+
+The table [`course_processed.csv`](data/course_processed.csv) complements [`course_genre.csv`](data/course_genre.csv) by adding one new field/column associated with each course: `DESCRIPTION`.
 
 The **ratings table** is contained in [`ratings.csv`](data/ratings.csv), which consists of 233306 rating entries, each with 3 features:
 
