@@ -29,3 +29,4 @@ dependencies:
       - wordcloud==1.8.1
       - nltk==3.6.7
       - gensim==4.1.2
+      - scikit-surprise==1.1.1
