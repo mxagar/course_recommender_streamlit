@@ -15,7 +15,7 @@ This folder contains research notebooks related to the [course_recommender_strea
   - BoWs are created for each course text field, storing them stacked in a dataframe in which each course-token pair has an entry.
   - The created dataframe is pivoted to create sparse BoW entries, one for each course.
   - Similarities between courses are computed: given a course with its BoW sparse array, the most similar ones are found.
-- [`03_Content_RecSys.ipynb`](03_Content_RecSys.ipynb)
+- [`03_Content_RecSys.ipynb`](03_Content_RecSys.ipynb): Content-based recommender systems (i.e., item features, e.g., genres, are known):
   1. Recommendations based on user profiles:
       - We consider that the course-genre weights are known.
       - We have a user profile, i.e., a matrix which contains the weight each user gives to a genre/feature. These weights are not normalized.
@@ -29,3 +29,4 @@ This folder contains research notebooks related to the [course_recommender_strea
       - For each user in a cluster, his un-attended courses are found.
       - For each user cluster, the most attended courses are listed.
       - For each user, the most attended courses in theirs cluster are recommended, if these were not visited by them yet.
+- []()
