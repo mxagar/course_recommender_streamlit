@@ -29,4 +29,23 @@ This folder contains research notebooks related to the [course_recommender_strea
       - For each user in a cluster, his un-attended courses are found.
       - For each user cluster, the most attended courses are listed.
       - For each user, the most attended courses in theirs cluster are recommended, if these were not visited by them yet.
-- []()
+- [`04_Collaborative_RecSys.ipynb`](04_Collaborative_RecSys.ipynb): collaborative-based recommendation systems (i.e., we don't have item features explicitly) using *classical* methods:
+  - A dense user-items ratings table is converted to a sparse table.
+  - Item-based and user-based k-NN search is applied to find the closest items/users given their similarity and perform a prediction with a weighted sum. This is done with the [surprise](https://surprise.readthedocs.io/en/stable/index.html) library and manually.
+  - Non-Negative Matrix Factorization (NMF) is used to decompose a ratings table into lower rank matrices which encode latent features. This is done with the [surprise](https://surprise.readthedocs.io/en/stable/index.html) library and with Scikit-Learn.
+- [`05_Collaborative_RecSys_ANN.ipynb`](05_Collaborative_RecSys_ANN.ipynb): collaborative-based recommendation systems (i.e., we don't have item features explicitly) using Artificial Neural Networks (ANNs):
+  - A very simple ANN is created with Keras using OOP, i.e., inheriting the `tensorflow.keras.Model` class. The model takes the dense ratings dataframe encoded with indices and it builds two embeddings: one for the user representations and the other for the item representations. Both embeddings have size 16 and are multiplied (dot product) to predict the rating.
+  - The training results in two important embedding matrices, which encode latent features. Therefore, we have the following dataframes:
+    - user embeddings: `(33901, 17)`
+    - item embeddings: `(126, 17)`
+    - ratings (dense): `(233306, 3)`
+  - The embeddings are joined to the ratings dataframe so that we get a table of shape `(233306, 3+16+16)`. Then, the two embedding vectors are summed and we collapse the large dataframe to a shape of `(233306, 16+1)`, i.e., 16 features (summed embedding vectors) and the rating (target).
+  - With this dataset, regression models are applied:
+    - Linear regression.
+    - Lasso regression with cross-validation.
+    - Ridge regression with cross-validation.
+    - Random forest classifier with a grid search.
+
+![Embedding feature vectors](../assets/embedding_feature_vector.jpg)
+
+![Embedding feature vectors - regression](../assets/rating_regression.jpg)
