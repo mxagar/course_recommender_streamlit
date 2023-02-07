@@ -1,0 +1,9 @@
+machine_learning_ibm
+streamlit_guide
+notebooks
+README.md
+data/course_embeddings_computed.csv
+data/profile_rs_results.csv
+data/ratings_sparse.csv
+data/user_embeddings_computed.csv
+data/sim_computed.csv
