@@ -1,8 +1,10 @@
 # Deployment of an AI Course Recommender System Using Streamlit
 
-This project implements and deploys an AI course Recommender System using [Streamlit](https://streamlit.io/).
+This project implements and deploys an AI course Recommender System using [Streamlit](https://streamlit.io/). The final deployment can be seen here:
 
-The deployed application was inspired by the the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera. In the last course/module of the Specialization, Machine Learning Capstone, a similar application is built; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project/06_Capstone_Recommender_System.md) for more information.
+[https://ai-course-recommender-demo.herokuapp.com/](https://ai-course-recommender-demo.herokuapp.com/)
+
+The application was inspired by the the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera. In the last course/module of the Specialization, Machine Learning Capstone, a similar application is built; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project/06_Capstone_Recommender_System.md) for more information.
 
 ## Dataset
 
@@ -111,12 +113,11 @@ Also, note that **the notebooks can be opened in Google Colab** by clicking on t
 
 :construction: To be done...
 
-### Summary of Contents
+## Deployment to Heroku
 
-:construction: To be done...
-
-- [ ] A
-- [ ] B
+```bash
+heroku logs --tail --app ai-course-recommender-demo
+```
 
 ## Results and Conclusions
 
