@@ -48,8 +48,23 @@ The directory of the project consists of the following files:
 
 ```
 .
-├── README.md           # This file
-...
+├── .slugignore
+├── Procfile
+├── README.md                               # This file
+├── assets/
+├── backend.py
+├── conda.yaml                              # Conda environment file
+├── data/
+├── notebooks                               # Research notebooks
+│   ├── 01_EDA.ipynb
+│   ├── 02_FE.ipynb
+│   ├── 03_Content_RecSys.ipynb
+│   ├── 04_Collaborative_RecSys.ipynb
+│   ├── 05_Collaborative_RecSys_ANN.ipynb
+│   └── README.md                           # Explanations of the notebooks
+├── recommender_app.py                      # Streamlit app
+├── requirements.txt                        # Dependencies for deployment
+└── setup.sh
 ```
 
 ### Installing Dependencies for Custom Environments
@@ -60,9 +75,16 @@ If you'd like to work with this repository locally, you need to create a custom 
 # Create environment with YAML, incl. packages
 conda env create -f conda.yaml
 conda activate course-recommender
+```
 
-# Install pip dependencies
-pip install requirements.txt
+The `requirements.txt` file is for the deployment; if we want to try the app locally on a minimum environment, we could do it as follows:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run Streamlit app
+streamlit run recommender_app.py
 ```
 
 :construction: To be done...
