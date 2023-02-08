@@ -127,6 +127,10 @@ heroku logs --tail --app ai-course-recommender-demo
 
 :construction: To be done...
 
+- [ ] Create a library/package and move the code from `backend.py` there; thus, `backend.py` would be the interface which calls the machine learning functionalities and `recommender_app.py` the GUI/app definition.
+- [ ] Explain the score in each case.
+- [ ] Fix that fact that datasets are being loaded every time we click on *Train*. This is Ok for a small demo of different machine learning approaches, but not for a final version, closer to a production setting.
+
 ## References and Links
 
 :construction: To be done...
