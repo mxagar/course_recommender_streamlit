@@ -28,7 +28,7 @@ from sklearn.pipeline import Pipeline
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
-from tensorflow.keras.optimizers import Adam, SGD, RMSprop
+from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.metrics import RootMeanSquaredError
 from tensorflow.keras.losses import MeanSquaredError
 
@@ -287,6 +287,7 @@ def train_ann(ratings_df, embedding_size, epochs):
         _type_: _description_
     """
     res_dict = dict()
+    
     # Encode ratings table to integers
     encoded_data, user_idx2id_dict, course_idx2id_dict = encode_ratings(ratings_df)
     # Scale dataset and split it to train/val/test
@@ -299,22 +300,47 @@ def train_ann(ratings_df, embedding_size, epochs):
     model = RecommenderNet(num_users, num_items, embedding_size)
     model.compile(optimizer=Adam(lr = .003),
                     loss=MeanSquaredError(), 
-                    metric=RootMeanSquaredError())
+                    metrics=[RootMeanSquaredError()])
+    
     # Train ANN
     run_hist = model.fit(x_train,
                          y_train,
                          validation_data=(x_val, y_val),
                          epochs=epochs,
                          shuffle=True)
+    
     # Evaluate trained ANN
     rmse = model.evaluate(x_test,y_test,verbose=0)
+
     # Extract embeddings
-    
+    # Create a dataframe of the user features
+    user_latent_features = model.get_layer('user_embedding_layer').get_weights()[0]
+    user_columns = [f"UFeature{i}" for i in range(user_latent_features.shape[1])]
+    user_embeddings_df = pd.DataFrame(data=user_latent_features, columns = user_columns)
+    user_embeddings_df['user'] = user_embeddings_df.index
+    # Shift column 'user' to first position
+    first_column = user_embeddings_df.pop('user')
+    user_embeddings_df.insert(0, 'user', first_column)
+    # Decode user ids
+    user_embeddings_df['user'] = user_embeddings_df['user'].replace(user_idx2id_dict)
+    # Create a dataframe of the item features
+    item_latent_features = model.get_layer('item_embedding_layer').get_weights()[0]
+    item_columns = [f"CFeature{i}" for i in range(item_latent_features.shape[1])]
+    item_embeddings_df = pd.DataFrame(data=item_latent_features, columns = item_columns)
+    item_embeddings_df['item'] = item_embeddings_df.index
+    # Shift column 'item' to first position
+    first_column = item_embeddings_df.pop('item')
+    item_embeddings_df.insert(0, 'item', first_column)
+    # Decode user ids
+    item_embeddings_df['item'] = item_embeddings_df['item'].replace(course_idx2id_dict)
+
     # Pack all results
     #res_dict["model"] = model
     res_dict["rmse"] = rmse
     res_dict["user_idx2id_dict"] = user_idx2id_dict
     res_dict["course_idx2id_dict"] = course_idx2id_dict
+    res_dict["user_embeddings_df"] = user_embeddings_df
+    res_dict["item_embeddings_df"] = item_embeddings_df
 
     return res_dict, model
 
