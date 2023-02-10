@@ -19,6 +19,8 @@ from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from st_aggrid import GridUpdateMode, DataReturnMode
 
+ALLOW_ANN = False
+
 # Basic webpage setup
 st.set_page_config(
    page_title="Course Recommender System",
@@ -149,10 +151,23 @@ def train(model_name, params):
     training_artifacts = None
     try:
         assert model_name in backend.MODELS
-        with st.spinner('Training...'):
-            time.sleep(0.5)
-            training_artifacts = backend.train(model_name, params)
-        st.success('Done!')
+        model_index = backend.get_model_index(model_selection)
+        do_train = False
+        if model_index > 5: # Neural Networks & Co.
+            if ALLOW_ANN:
+                do_train = True            
+        else:
+            do_train = True
+        if do_train:  
+            with st.spinner('Training...'):
+                time.sleep(0.5)
+                training_artifacts = backend.train(model_name, params)
+            st.success('Done!')
+        else:
+            st.write("Sorry, the Neural Networks model is not active at the moment\
+                due to the slug memory quota on Heroku. \
+                If you clone the repository, \
+                you can try it on your local machine, though.")
         return training_artifacts
     except AssertionError as err:
         print("Model name must be in the drop down.") # we should use the logger
@@ -177,18 +192,31 @@ def predict(model_name, user_ids, params, training_artifacts):
     # Start making predictions based on model name, test user ids, and parameters
     try:
         assert model_name in backend.MODELS
-        with st.spinner('Generating course recommendations: '):
-            time.sleep(0.5)
-            # FIXME: new_id is also contained in params to trigger the cache miss for train()
-            # That makes user_ids redundant, however, necessary if we want to
-            # - maintain a lower API for predict()
-            # - be agnostic of some contents in params within the lower API predict
-            # Fix that! 
-            new_id = params["new_id"]
-            user_ids = [new_id]
-            res, descr = backend.predict(model_name, user_ids, params, training_artifacts)
-        st.success('Recommendations generated!')
-        st.write(descr)
+        model_index = backend.get_model_index(model_selection)
+        do_predict = False
+        if model_index > 5: # Neural Networks & Co.
+            if ALLOW_ANN:
+                do_predict = True            
+        else:
+            do_predict = True
+        if do_predict:
+            with st.spinner('Generating course recommendations: '):
+                time.sleep(0.5)
+                # FIXME: new_id is also contained in params to trigger the cache miss for train()
+                # That makes user_ids redundant, however, necessary if we want to
+                # - maintain a lower API for predict()
+                # - be agnostic of some contents in params within the lower API predict
+                # Fix that! 
+                new_id = params["new_id"]
+                user_ids = [new_id]
+                res, descr = backend.predict(model_name, user_ids, params, training_artifacts)
+            st.success('Recommendations generated!')
+            st.write(descr)
+        else:
+            st.write("Sorry, the Neural Networks model is not active at the moment\
+                due to the slug memory quota on Heroku. \
+                If you clone the repository, \
+                you can try it on your local machine, though.")
         return res
     except AssertionError as err:
         print("Model name must be in the drop down.") # we should use the logger
@@ -286,7 +314,7 @@ training_button = False
 training_button = st.sidebar.button("Train Model")
 training_text = st.sidebar.text('')
 # Initialize global training return variables
-training_artifacts = {}
+training_artifacts = None
 model_index = backend.get_model_index(model_selection)
 new_id = None
 # Start training process
@@ -296,6 +324,7 @@ if training_button:
         # in the training dataset to create embeddings for them.
         new_id = backend.add_new_ratings(selected_courses_df['COURSE_ID'].values)
         params["new_id"] = new_id
+    # Train
     training_artifacts = train(model_selection, params)
 
 # Prediction
@@ -304,7 +333,7 @@ if training_button:
 st.sidebar.subheader('4. Prediction')
 # Start prediction process
 pred_button = st.sidebar.button("Recommend New Courses")
-if not "model_name" in training_artifacts:
+if not training_artifacts:
     # Since train() is cached, we don't really recompute everything
     training_artifacts = train(model_selection, params)
 if pred_button and selected_courses_df.shape[0] > 0:
