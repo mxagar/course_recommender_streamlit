@@ -23,7 +23,7 @@ from st_aggrid import GridUpdateMode, DataReturnMode
 # limits of the Heroku slug. Thus, you can deactivate
 # models 6-7-8, which use Tensorflow, when the app
 # is deployed. For local runs, you can allow ANNs.
-ALLOW_ANN = True
+ALLOW_ANN = False
 
 # Basic webpage setup
 st.set_page_config(
