@@ -1,10 +1,38 @@
 # Deployment of an AI Course Recommender System Using Streamlit
 
-This project implements and deploys an AI course Recommender System using [Streamlit](https://streamlit.io/). The final deployment can be seen here:
+This project implements and deploys several AI course Recommender Systems using [Streamlit](https://streamlit.io/). The final deployment can be seen here:
 
 [https://ai-course-recommender-demo.herokuapp.com/](https://ai-course-recommender-demo.herokuapp.com/)
 
-The application was inspired by the the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera. In the last course/module of the Specialization, Machine Learning Capstone, a similar application is built; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project/06_Capstone_Recommender_System.md) for more information.
+The application is the final/capstone project of the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project/06_Capstone_Recommender_System.md) for more information.
+
+All in all, the following models are created:
+
+- Course Similarity
+- User Profile
+- Clustering
+- Clustering with PCA
+- KNN
+- NMF
+- Neural Network
+- Regression with Embedding Features
+- Classification with Embedding Features
+
+:warning: I used the template provided by IBM as the basis for the web app, but I think it was a poor decision: many equivalent yet different models are created and packed into only two files; thus, it goes against many software design principles, making code understanding and maintainability difficult. I highlight the concrete problems in the section [Next Steps, Improvements](#next-steps-improvements). If I get time, I'll come back and fix them...
+
+Table of contents:
+- [Deployment of an AI Course Recommender System Using Streamlit](#deployment-of-an-ai-course-recommender-system-using-streamlit)
+  - [Dataset](#dataset)
+  - [How to Use This Project](#how-to-use-this-project)
+    - [Installing Dependencies for Custom Environments](#installing-dependencies-for-custom-environments)
+  - [Background: Content-Based vs. Collaborative-Filtering Recommender Systems](#background-content-based-vs-collaborative-filtering-recommender-systems)
+  - [Notes on the Implemented Analysis and Modeling](#notes-on-the-implemented-analysis-and-modeling)
+  - [Deployment to Heroku](#deployment-to-heroku)
+  - [Results and Conclusions](#results-and-conclusions)
+  - [Next Steps, Improvements](#next-steps-improvements)
+  - [References and Links](#references-and-links)
+  - [Authorship](#authorship)
+
 
 ## Dataset
 
@@ -127,9 +155,14 @@ heroku logs --tail --app ai-course-recommender-demo
 
 :construction: To be done...
 
+As I mention in the introduction, I used the starter code/template to implement the app, but I think it has many architectural/design issues that need to be tackled. Here, I list some solutions I'd implement if I had time:
+
 - [ ] Create a library/package and move the code from `backend.py` there; thus, `backend.py` would be the interface which calls the machine learning functionalities and `recommender_app.py` the GUI/app definition.
-- [ ] Explain the score in each case.
-- [ ] Fix that fact that datasets are being loaded every time we click on *Train*. This is Ok for a small demo of different machine learning approaches, but not for a final version, closer to a production setting.
+- [ ] Transform code into OOP-style; each model/approach could be a class derived from a base interface and we could pack them in different files which are used in a main library/package file.
+- [ ] Fix the fact that datasets are being loaded every time we click on *Train*. This is Ok for a small demo of different machine learning approaches, but not for a final version, closer to a production setting.
+- [ ] Unify the pipeline for all models: the approaches based on neural networks have a different data flow, because they need the selected courses in the training set in order to create the embeddings correctly. Additionally, the neural network model cannot be hashed into a dictionary. The data flow and the in/out interfaces should be the same for all models.
+- [ ] The ANN training should consider not only the 2 & 3 ratings.
+- [ ] Find out a way to deploy the models which use the ANN to Heroku or a similar cloud service. Currently, the ANN model is too large for the Heroku slug memory.
 
 ## References and Links
 
@@ -142,4 +175,4 @@ No guarantees.
 
 If you find this repository useful, you're free to use it, but please link back to the original source.
 
-This project was inspired by the the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning) offered by IBM & Coursera. In the last course/module of the Specialization, Machine Learning Capstone, a similar application is built; check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project) for more information.
+This is the final capstone project of the [IBM Machine Learning Professional Certificate](https://www.coursera.org/professional-certificates/ibm-machine-learning); check my [class notes](https://github.com/mxagar/machine_learning_ibm/tree/main/06_Capstone_Project) for more information. I used the starter code from IBM.
