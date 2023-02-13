@@ -172,8 +172,7 @@ def get_doc_dicts():
 class RecommenderNet(keras.Model):
     
     def __init__(self, num_users, num_items, embedding_size=16, **kwargs):
-        """
-           Constructor
+        """Constructor.
            :param int num_users: number of users
            :param int num_items: number of items
            :param int embedding_size: the size of embedding vector
@@ -216,8 +215,7 @@ class RecommenderNet(keras.Model):
             name="item_bias")
         
     def call(self, inputs):
-        """
-           method to be called during model fitting
+        """Method to be called during model fitting.
            
            :param inputs: user and item one-hot vectors
         """
@@ -233,6 +231,19 @@ class RecommenderNet(keras.Model):
         return tf.nn.relu(x)
 
 def encode_ratings(raw_data):
+    """Encode user-item ratings for the ANN training.
+
+    Inputs:
+        raw_data: pd.DataFrame
+            Table with user-course/item ratings
+    Outputs:
+        encoded_data: pd.DataFrame
+            Encoded table in which user & item ids are mapped to integers.
+        user_idx2id_dict: dict
+            User mappings.
+        course_idx2id_dict: dict
+            Course/item mappings
+    """
     
     encoded_data = raw_data.copy()
     
