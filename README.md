@@ -70,6 +70,13 @@ The **user profiles** are contained [`user_profile.csv`](data/user_profile.csv),
 
 Some **test user rating data** is provided in [`rs_content_test.csv`](data/rs_content_test.csv). In total, the table has 9,402 entries with values 3 values each: `user` (student id), `item` (`COURSE_ID`), `rating`. Altogether 1000 unique users are contained, so some users have rated some courses.
 
+Clearly, the datasets `ratings.csv` and `course_genre.csv` are the most important; with them, we can
+
+- build user profiles,
+- compute user and course similarities,
+- infer latent user and course features,
+- build recommender models, both content-based and with collaborative filtering.
+
 ## How to Use This Project
 
 The directory of the project consists of the following files:
