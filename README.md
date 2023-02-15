@@ -219,7 +219,7 @@ heroku logs --tail --app app-name
 
 Continuous Integration and Continuous Deployment (CI/CD) are realized as follows:
 
-- There is a Github action defined in []() which runs the tests and is triggered every time we perform a push to the remote repository.
+- There is a Github action defined in [`.github/workflows/python-app.yml`](.github/workflows/python-app.yml) which runs the tests and is triggered every time we perform a push to the remote repository.
 - The option *Continuous deployment* is active in the Heroku app (web interface), so that the code is deployed every time Github runs all tests successfully.
 
 :warning: :construction: The current tests are very few and non-significant; the testing structure was created and now it needs to be populated.
