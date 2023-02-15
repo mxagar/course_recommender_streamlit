@@ -18,7 +18,7 @@ All in all, the following models are created:
 - **Regression with NN Embedding Features**
 - **Classification with NN Embedding Features**
 
-:warning: :construction: *I used the [template provided by IBM](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/module_5/app.zip) as the basis for the web app, but I think it was a poor decision: many equivalent yet different models are created and packed into only two files; thus, it goes against many software design principles, making code understanding and maintainability difficult. I highlight the concrete problems in the section [Next Steps, Improvements](#next-steps-improvements). If I get time, I'll come back and fix them...*
+:warning: :construction: *I used the [template provided by IBM](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/module_5/app.zip) as the basis for the web app, but I think its structure can be significantly improved: many equivalent yet different models are created and packed into only two files; thus, it goes against many software design principles, making code understanding and maintainability difficult. I highlight the concrete problems in the section [Next Steps, Improvements](#next-steps-improvements). If I get time, I'll come back and fix them...*
 
 Table of contents:
 - [Deployment of an AI Course Recommender System Using Streamlit](#deployment-of-an-ai-course-recommender-system-using-streamlit)
