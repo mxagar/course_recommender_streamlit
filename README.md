@@ -8,18 +8,17 @@ The application is the final/capstone project of the [IBM Machine Learning Profe
 
 All in all, the following models are created:
 
-- **Course Similarity Model**: course descriptors formed by bags-of-words of course descriptions.
-- **User Profile Model**: user descriptors formed by the genre preferences derived from course ratings.
-- **Clustering Model**: K-means applied to user profile vectors to discover most common courses per cluster.
-- **Clustering with PCA**: equivalent to the previous, but with dimensionality reduction.
-- **KNN Model with Course Ratings**: course similarities based on the ratings provided by all users.
-- **NMF Model**: ratings table factorization to discover latent course and user features.
-- **Neural Network (NN)**: user and course pairs mapped to ratings with intermediate
-embeddings.
-- **Regression with Embedding Features**: embeddings from NN used to regress ratings.
-- **Classification with Embedding Features**: embeddings from NN used to infer rating classes.
+- **Course Similarity Model**
+- **User Profile Model**
+- **Clustering Model**
+- **Clustering with PCA**
+- **KNN Model with Course Ratings**
+- **NMF Model**
+- **Neural Network (NN)**
+- **Regression with NN Embedding Features**
+- **Classification with NN Embedding Features**
 
-:warning: I used the template provided by IBM as the basis for the web app, but I think it was a poor decision: many equivalent yet different models are created and packed into only two files; thus, it goes against many software design principles, making code understanding and maintainability difficult. I highlight the concrete problems in the section [Next Steps, Improvements](#next-steps-improvements). If I get time, I'll come back and fix them...
+:warning: :construction: *I used the [template provided by IBM](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/module_5/app.zip) as the basis for the web app, but I think it was a poor decision: many equivalent yet different models are created and packed into only two files; thus, it goes against many software design principles, making code understanding and maintainability difficult. I highlight the concrete problems in the section [Next Steps, Improvements](#next-steps-improvements). If I get time, I'll come back and fix them...*
 
 Table of contents:
 - [Deployment of an AI Course Recommender System Using Streamlit](#deployment-of-an-ai-course-recommender-system-using-streamlit)
@@ -35,7 +34,7 @@ Table of contents:
       - [KNN Model with Course Ratings](#knn-model-with-course-ratings)
       - [NMF Model](#nmf-model)
       - [Artificial Neural Network (ANN) and Derived Models](#artificial-neural-network-ann-and-derived-models)
-  - [Notes on the App](#notes-on-the-app)
+  - [Notes on the App Structure](#notes-on-the-app-structure)
   - [Notes on the Deployment to Heroku](#notes-on-the-deployment-to-heroku)
   - [Preliminary Results](#preliminary-results)
   - [Next Steps, Improvements](#next-steps-improvements)
@@ -69,11 +68,16 @@ The directory of the project consists of the following files:
 └── tests                                   # Tests for the app; TBD
 ```
 
+The model implementation is two places:
+
+- In the [notebooks](notebooks), where research and manual tests are carried out.
+- In the files [`backend.py`](backend.py) and [`recommender_app.pys`](recommender_app.py), where the code from the notebooks has been refactored to fit a Streamlit app. The functionality (i.e., models, etc.) is in the first, whereas the UI is defined in the second.
+
 There are at least 3 ways you can explore the project:
 
-1. Deployed app
-2. Notebooks
-3. Streamlit locally
+1. Check the [app deployed on Heroku](https://ai-course-recommender-demo.herokuapp.com/). The URL might need a bit of time until the app awakens; additionally, note that the ANN-based models are disabled on the deployed app because the network exceeds the memory capacity of the eco dyno.
+2. Run the app locally. To that end, you need to install the `requirements.txt` and run `streamlit`, as explained in the [next subsection](#installing-dependencies-for-custom-environments-and-running-the-app-locally).
+3. Check the [notebooks](notebooks); they contain all model definitions and tests and a summary of their contents is provided in [`notebooks/README.md`](notebooks/README.md). The `conda.yaml` file contains all packages necessary to set up an environment, as explained in the [next subsection](#installing-dependencies-for-custom-environments-and-running-the-app-locally). Alternatively, you can open the notebooks on **Google Colab** by clicking on the dedicated icon in the header of each of them.
 
 ### Installing Dependencies for Custom Environments and Running the App Locally
 
@@ -85,7 +89,7 @@ conda env create -f conda.yaml
 conda activate course-recommender
 ```
 
-If you have a Mac with an M1/2 chip and you are having issues with the Tensorflow package, please check [this link]().
+If you have a Mac with an M1/2 chip and you are having issues with the Tensorflow package, please check [this link](https://towardsdatascience.com/installing-tensorflow-on-the-m1-mac-410bb36b776).
 
 The `requirements.txt` file is for the deployment; if we want to try the app locally on a minimum environment, we could do it as follows:
 
@@ -97,7 +101,7 @@ pip install -r requirements.txt
 streamlit run recommender_app.py
 ```
 
-Also, note that **the notebooks can be opened in Google Colab** by clicking on the icon provided in each of them.
+Also, as mentioned, note that **the notebooks can be opened in Google Colab** by clicking on the icon provided in each of them.
 
 ## The Dataset
 
@@ -146,8 +150,10 @@ Clearly, the datasets `ratings.csv` and `course_genre.csv` are the most importan
 
 Altogether, eight recommender systems have been created and deployed; these can be classified in two groups:
 
-  - Content-based: when user and course features (i.e., genres/topics) are known.
-  - Collaborative Filtering: when user and course features (i.e., genres/topics) are not known, or they are inferred.
+  - Content-based: systems in which user and course features (i.e., genres/topics) are known and used.
+  - Collaborative Filtering: systems in which user and course features (i.e., genres/topics) are not known, or they are inferred.
+
+In the following, a few notes are provided on the implemented models.
 
 ### Content-Based Systems
 
@@ -181,18 +187,42 @@ An Artificial Neural Network (ANN) which maps users and courses to ratings is de
 
 The user and item embeddings extracted from the ANN are used to build a linear regression model and a random forest classifier which predict the rating given the embedding of a user and a course.
 
-## Notes on the App
+## Notes on the App Structure
 
-:construction: To be done...
+As mentioned, the app is fully contained in these two files:
+
+- [`backend.py`](backend.py): model definition, training and prediction functions.
+- [`recommender_app.py`](recommender_app.py): Streamlit UI and usage of `backend.py` functionalities.
+
+The [`recommender_app.py`](recommender_app.py) file instantiates all UI widgets in sequence and it converges to two important functions: `train)()` and `predict()`. These call their homologue in [`backend.py`](backend.py), which bifurcate the execution depending on the selected model (a parameter caught by the UI). All main and auxiliary functions to train the models and produce results are contained in [`backend.py`](backend.py).
+
+I took this structure definition from the [IBM template](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML321EN-SkillsNetwork/labs/module_5/app.zip), however, it has some shortcomings; in summary, the architecture from `backend.py` is fine for a demo consisting of one/two simple models, but very messy for nine. Some improvements are listed in the section [Next Steps, Improvements](#next-steps-improvements). 
 
 ## Notes on the Deployment to Heroku
 
-:construction: To be done...
+[Heroku](https://www.heroku.com/home) is a cloud service which enables very easy (continuous) deployments. In this case, we need to create the following files in the repository:
 
+- `Procfile`
+- `.slugignore`
+- `runtime.txt`
+- `requirements.txt`
+- `setup.sh`
+
+Additionally, an app needs to be created in Heroku, via the [CLI](https://devcenter.heroku.com/articles/heroku-cli) or the Heroku web interface. In the case of the web interface, the deployment is realized by simply linking the Github repository to the app. More information on that can be found [here](https://github.com/mxagar/mlops_udacity/blob/main/03_Deployment/MLOpsND_Deployment.md#44-continuous-deployment-with-heroku).
+
+After the deployment, if anything goes wrong, we can check the logs with the CLI as follows:
 
 ```bash
-heroku logs --tail --app ai-course-recommender-demo
+# Replace app-name, e.g., with ai-course-recommender-demo
+heroku logs --tail --app app-name
 ```
+
+Continuous Integration and Continuous Deployment (CI/CD) are realized as follows:
+
+- There is a Github action defined in []() which runs the tests and is triggered every time we perform a push to the remote repository.
+- The option *Continuous deployment* is active in the Heroku app (web interface), so that the code is deployed every time Github runs all tests successfully.
+
+:warning: :construction: The current tests are very few and non-significant; the testing structure was created and now it needs to be populated.
 
 ## Preliminary Results
 
@@ -213,10 +243,15 @@ As I mention in the introduction, I used the starter code/template to implement 
 - [ ] Unify the pipeline for all models: the approaches based on neural networks have a different data flow, because they need the selected courses in the training set in order to create the embeddings correctly. Additionally, the neural network model cannot be hashed into a dictionary. The data flow and the in/out interfaces should be the same for all models.
 - [ ] The ANN training should consider not only the 2 & 3 ratings.
 - [ ] Find out a way to deploy the models which use the ANN to Heroku or a similar cloud service. Currently, the ANN model is too large for the Heroku slug memory.
+- [ ] Implement more tests to cover at least the major functionalities and the `train()` and `predict()` functions in the `backend.py`.
 
 ## References and Links
 
-:construction: To be done...
+- My guide on how to use Streamlit: [streamlit_guide](https://github.com/mxagar/streamlit_guide)
+- My notes on deployments in general (e.g., to Heroku, AWS, Render): [mlops_udacity/deployment](https://github.com/mxagar/mlops_udacity/blob/main/03_Deployment/MLOpsND_Deployment.md)
+- My notes on the IBM Machine Learning Specialization: [machine_learning_ibm](https://github.com/mxagar/machine_learning_ibm)
+- My notes on the lectures by Andrew Ng about Recommender Systems: [machine_learning_coursera](https://github.com/mxagar/machine_learning_coursera/blob/main/07_Anomaly_Recommender/ML_Anomaly_Recommender.md#machine-learning-anomaly-detection-and-recommender-systems)
+- My blog post on how to reach production-level code: [From Jupyter Notebooks to Production-Level Code](https://mikelsagardia.io/blog/machine-learning-production-level.html)
 
 ## Authorship
 
